@@ -65,7 +65,8 @@ else {
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="images/faces/face1.jpg" alt="profile"/>
+              <!-- <img src="images/faces/face1.jpg" alt="profile"/> -->
+              <!-- <span class="nav-profile-name">Username :</span> -->
               <span class="nav-profile-name"><?= $user["nama_user"]; ?></span>
               <span class="nav-profile-name"><?= $user["deskripsi"]; ?></span>
               <span class="nav-profile-name"><?= $user["lvl"];?></span>

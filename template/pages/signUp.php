@@ -15,7 +15,7 @@ if(isset($_POST["register"])){
         $_POST["nama_user"],
         $hashPass,
         // $_POST["confirmpass"],
-        $_POST["lvl"],
+        $_POST["lvl"]
         
     );
     

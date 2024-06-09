@@ -24,11 +24,10 @@ class register extends database{
             return 10;
             // username telah digunakan
         } else {
-            if($pass){             
+            if($pass){
+                $hashed_password = password_hash($pass, PASSWORD_DEFAULT);          
                 $queryPass = mysqli_query($this->conn, "INSERT INTO tb_user (id_divisi, nama_user, pass, lvl) VALUES ('$id_divisi', '$nama_user', '$pass', '$lvl')");
-                // password_hash($pass, PASSWORD_DEFAULT);
-                mysqli_fetch_assoc($queryPass);
-                
+
                 return 1;
                 // registrasi berhasil
             }

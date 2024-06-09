@@ -66,7 +66,7 @@
                                     <?php
                                         if (isset($_SESSION['lvl'])){
                                             $lvl = $_SESSION['lvl'];
-                                            if($lvl == 'approval'){ ?>
+                                            if($lvl == 'approval' or 'Approval'){ ?>
                                                 <!-- dropdown button approve & decline maulai-->
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
