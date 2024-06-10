@@ -9,12 +9,12 @@ if(isset($_POST['submit'])){
         // $_POST["inv_dokumen"],
         $_POST["id_divisi"],
         $_POST["id_divisi_kepada"],
-        $_POST["no_dokumen"],
-        $_POST["inv_dokumen"],
+        ["no_dokumen"],
+        ["inv_dokumen"],
         $_POST["nama_dokumen"],
         $_POST["pengirim"],
-        $_POST["dari_div"],
-        $_POST["kepada_div"],
+        ["dari_div"],
+        ["kepada_div"],
         $_POST["penerima"],
         $_POST["file_dokumen"],
         $_POST["jenis_dokumen"],
@@ -220,7 +220,7 @@ if(isset($_POST['submit'])){
                                         <?php
                                             if (isset($_SESSION['lvl'])){
                                                 $lvl = $_SESSION['lvl'];
-                                                if($lvl == 'approval'){ ?>
+                                                if($lvl == 'approval' or 'Approval'){ ?>
                                                     <!-- dropdown button approve & decline maulai-->
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
