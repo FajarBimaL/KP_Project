@@ -9,6 +9,7 @@ if(isset($_POST['submit'])){
         // $_POST["inv_dokumen"],
         $_POST["id_divisi"],
         $_POST["id_divisi_kepada"],
+        // ['id_file'],
         ["no_dokumen"],
         ["inv_dokumen"],
         $_POST["nama_dokumen"],
@@ -17,10 +18,33 @@ if(isset($_POST['submit'])){
         ["kepada_div"],
         $_POST["penerima"],
         $_POST["file_dokumen"],
+        $nm_file = $_FILES['file']['name'],
+        $filecontent = file_get_contents($_FILES['file']['tmp_name']),
+        // $_POST['filecontent'],
         $_POST["jenis_dokumen"],
         $_POST["status"]
     );
+
+    // $nm_file = $_FILES['file']['name'];
+    // $filecontent = file_get_contents($_FILES['file']['tmp_name']);
+    // $ListQuery->isiForm($nm_file,$filecontent);
 }
+
+// if(isset($_POST['submit'])) {
+//     $nm_file = $_FILES['file']['name'];
+//     $filecontent = file_get_contents($_FILES['file']['tmp_name']);
+//     $ListQuery->upFile($nm_file,$filecontent);
+// }
+
+// if(isset($_POST['submit'])){
+//     $file_dokumen = $_FILES['file']['name'];
+//     $filecontent = file_get_contents($_FILES['file']['tmp_name']);
+//     if($ListQuery->uploadFile($file_dokumen,$filecontent)){
+//         echo "<script>alert('File uploaded successfully');</script>";
+//     } else {
+//         echo "<script>alert('File upload failed');</script>";
+//     }
+// }
 ?>
 <!-- Datatables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css">
@@ -52,7 +76,7 @@ if(isset($_POST['submit'])){
                                 <h4 class="modal-title">Dokumentasi</h4>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" name="submit" class="form-sample">
+                                <form method="POST" name="submit" class="form-sample" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label for="">Document Name</label>
                                         <input type="text" name="nama_dokumen" class="form-control" placeholder="Document Name">
@@ -88,7 +112,7 @@ if(isset($_POST['submit'])){
                                                 }
                                             ?>
                                         </select>
-                                    </div>
+                                    </div>                                
                                     <!-- Radio button select penerima mulai (masih gagal)-->
                                     <!-- <div class="form-group">
                                         <label for="">Penerima</label><br>
@@ -129,11 +153,17 @@ if(isset($_POST['submit'])){
                                     <div class="form-group">
                                         <label for="">File Document</label>
                                         <!-- <input type="text" class="doc[]" class="file-upload-default"> -->
-                                        <div class="input-group col-xs-12">
+                                        <!-- <div class="input-group col-xs-12">
                                             <input type="file" name="file_dokumen" class="form-control file-upload-info"  placeholder="Upload Document">
-                                            <!-- <span class="input-group-append">
+                                            <span class="input-group-append">
                                             <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                                            </span> -->
+                                            </span>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="file">Choose File</label>
+                                            <input type="file" class="form-control" id="file" name="file" accept="application/pdf" required>
                                         </div>
                                     </div>
                                     <!-- field upload file dokumen mulai -->
@@ -220,7 +250,7 @@ if(isset($_POST['submit'])){
                                         <?php
                                             if (isset($_SESSION['lvl'])){
                                                 $lvl = $_SESSION['lvl'];
-                                                if($lvl == 'approval' or 'Approval'){ ?>
+                                                if($lvl == 'approval'){ ?>
                                                     <!-- dropdown button approve & decline maulai-->
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

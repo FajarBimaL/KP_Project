@@ -104,9 +104,23 @@ class masuk extends database {
 
 // membuat listQuery untuk menampilkan(show),membuat(create),dan mengupdate(update) data dari database
 class listQuery extends database {
-
+    // public function upFile($nm_file, $filecontent) {
+    //     $query = "INSERT INTO tb_filesdoc (nm_file, filecontent) VALUES (?,?)";
+    //     $statement = $this->conn->prepare($query);
+    //     if($statement === false) {
+    //         die ("error prep statement : ".$this->conn->error);
+    //     }
+    //     $null = NULL;
+    //     $statement->bind_param("sb", $nm_file, $null);
+    //     $statement->send_long_data(1,$filecontent);
+    //     if($statement->execute()){
+    //         return true;
+    //     } else {
+    //         die ("err execute statement : ".$statement->error);
+    //     }
+    // }
     // fungsi untuk pengisian form dokumen
-    public function isiForm($id_divisi, $id_divisi_kepada, $no_dokumen, $inv_dokumen, $nama_dokumen, $pengirim, $dari_div, $kepada_div, $penerima, $file_dokumen, $jenis_dokumen,$status){
+    public function isiForm($id_divisi, $id_divisi_kepada, $no_dokumen, $inv_dokumen, $nama_dokumen, $pengirim, $dari_div, $kepada_div, $penerima, $file_dokumen,$nm_file,$filecontent, $jenis_dokumen,$status){
         // menampilkan nama divisi pada tabel dokumen ($dari div) yang diambil dari database tb_divisi (untuk menampilkan data agar terlihat saat di tabel field (dari div))
         $queryNama = mysqli_query($this->conn,"SELECT * FROM tb_divisi WHERE id_divisi=$id_divisi");
         $hasilQueryNama = mysqli_fetch_array($queryNama);
@@ -118,6 +132,11 @@ class listQuery extends database {
         $hasilQueryNama2 = mysqli_fetch_array($queryNama2);
         $kepada_div=$hasilQueryNama2[1];
         echo $kepada_div;
+
+        // $queryFile = mysqli_query($this->conn,"SELECT * FROM tb_filesdoc WHERE id_file=$id_file");
+        // $hslqueryFile = mysqli_fetch_assoc($queryFile);
+        // $id_file=$hslqueryFile[1];
+        // echo $id_file;
 
         // pembuatan no dokumen (seperti no invoice)
         // $queryNoDoc = mysqli_query($this->conn, "SELECT MAX(no_dokumen) AS no_dokumen FROM tb_dokumen WHERE YEAR(tgl_masuk) = YEAR(NOW())");
@@ -136,11 +155,23 @@ class listQuery extends database {
             $inv_dokumen=$no_dokumen.'/'.$kepada_div.'/'.$bulan;
         }
         // query insert data, setelah semua kondisi diatas berhasil di eksekusi
-        $query = mysqli_query($this->conn, "INSERT INTO tb_dokumen (id_divisi, id_divisi_kepada, no_dokumen, inv_dokumen, nama_dokumen, pengirim, dari_div, kepada_div, penerima, file_dokumen, jenis_dokumen,status, tgl_masuk) VALUES ('$id_divisi','$id_divisi_kepada','$no_dokumen','$inv_dokumen','$nama_dokumen','$pengirim','$dari_div','$kepada_div','$penerima','$file_dokumen','$jenis_dokumen','$status',NOW())");
-        // mysqli_query($this->conn, $query);
-        // return mysqli_fetch_assoc($query);
+        $query = mysqli_query($this->conn, "INSERT INTO tb_dokumen (id_divisi, id_divisi_kepada, no_dokumen, inv_dokumen, nama_dokumen, pengirim, dari_div, kepada_div, penerima, file_dokumen,nm_file,filecontent, jenis_dokumen,status, tgl_masuk) VALUES ('$id_divisi','$id_divisi_kepada','$no_dokumen','$inv_dokumen','$nama_dokumen','$pengirim','$dari_div','$kepada_div','$penerima','$file_dokumen','$nm_file','$filecontent','$jenis_dokumen','$status',NOW())");
+        $statement = $this->conn->prepare($query);
+        if($statement === false) {
+            die ("error prep statement : ".$this->conn->error);
+        }
+        $null = NULL;
+        $statement->bind_param("sb", $nm_file, $null);
+        $statement->send_long_data(1,$filecontent);
+        if($statement->execute()){
+            return true;
+        } else {
+            die ("err execute statement : ".$statement->error);
+        }
 
     }
+
+
 
     // function insertDok(){
     //     $table = $_POST['table'];
