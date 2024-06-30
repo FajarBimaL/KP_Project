@@ -4,6 +4,15 @@
 // ini_set('display_errors', '1');
 
 if(isset($_POST['submit'])){
+    if (isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK){
+        $nm_file = $_FILES['file']['name'];
+        $filecontent = file_get_contents($_FILES['file']['tmp_name']);
+
+        if ($filecontent === false) {
+            die("Error reading file contents.");
+        }
+    }
+
     $hasil = $ListQuery->isiForm(
         // $_POST["no_dokumen"],
         // $_POST["inv_dokumen"],
@@ -17,9 +26,9 @@ if(isset($_POST['submit'])){
         ["dari_div"],
         ["kepada_div"],
         $_POST["penerima"],
-        $_POST["file_dokumen"],
-        $nm_file = $_FILES['file']['name'],
-        $filecontent = file_get_contents($_FILES['file']['tmp_name']),
+        ["file_dokumen"],
+        $nm_file,
+        $filecontent,
         // $_POST['filecontent'],
         $_POST["jenis_dokumen"],
         $_POST["status"]

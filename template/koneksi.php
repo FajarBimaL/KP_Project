@@ -154,20 +154,32 @@ class listQuery extends database {
             $no_dokumen=(int)$hasilQuery['no_dokumen']+1;
             $inv_dokumen=$no_dokumen.'/'.$kepada_div.'/'.$bulan;
         }
-        // query insert data, setelah semua kondisi diatas berhasil di eksekusi
-        $query = mysqli_query($this->conn, "INSERT INTO tb_dokumen (id_divisi, id_divisi_kepada, no_dokumen, inv_dokumen, nama_dokumen, pengirim, dari_div, kepada_div, penerima, file_dokumen,nm_file,filecontent, jenis_dokumen,status, tgl_masuk) VALUES ('$id_divisi','$id_divisi_kepada','$no_dokumen','$inv_dokumen','$nama_dokumen','$pengirim','$dari_div','$kepada_div','$penerima','$file_dokumen','$nm_file','$filecontent','$jenis_dokumen','$status',NOW())");
-        $statement = $this->conn->prepare($query);
-        if($statement === false) {
-            die ("error prep statement : ".$this->conn->error);
+
+        $query = $this->conn->prepare("INSERT INTO tb_dokumen (id_divisi, id_divisi_kepada, no_dokumen, inv_dokumen, nama_dokumen, pengirim, dari_div, kepada_div, penerima, file_dokumen,nm_file,filecontent, jenis_dokumen,status, tgl_masuk) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())");
+        if ($query === false){
+            die ("error prep state : ".$this->conn->error);
         }
-        $null = NULL;
-        $statement->bind_param("sb", $nm_file, $null);
-        $statement->send_long_data(1,$filecontent);
-        if($statement->execute()){
+        $query->bind_param("iissssssssbsss",$id_divisi,$id_divisi_kepada,$no_dokumen,$inv_dokumen,$nama_dokumen,$pengirim,$dari_div,$kepada_div,$penerima,$file_dokumen,$nm_file,$null,$jenis_dokumen,$status,);
+        $query->send_long_data(11,$filecontent);
+        if ($query->execute()){
             return true;
-        } else {
-            die ("err execute statement : ".$statement->error);
+        }else{
+            die("error exc state : ".$query->error);
         }
+        // query insert data, setelah semua kondisi diatas berhasil di eksekusi
+        // $query = mysqli_query($this->conn, "INSERT INTO tb_dokumen (id_divisi, id_divisi_kepada, no_dokumen, inv_dokumen, nama_dokumen, pengirim, dari_div, kepada_div, penerima, file_dokumen,nm_file,filecontent, jenis_dokumen,status, tgl_masuk) VALUES ('$id_divisi','$id_divisi_kepada','$no_dokumen','$inv_dokumen','$nama_dokumen','$pengirim','$dari_div','$kepada_div','$penerima','$file_dokumen','$nm_file','$filecontent','$jenis_dokumen','$status',NOW())");
+        // $statement = $this->conn->prepare($query);
+        // if($statement === false) {
+        //     die ("error prep statement : ".$this->conn->error);
+        // }
+        // $null = NULL;
+        // $statement->bind_param("sb", $nm_file, $null);
+        // $statement->send_long_data(1,$filecontent);
+        // if($statement->execute()){
+        //     return true;
+        // } else {
+        //     die ("err execute statement : ".$statement->error);
+        // }
 
     }
 
